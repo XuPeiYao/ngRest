@@ -2,17 +2,18 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { RestClientBuilder } from './oh/restClientBuilder.service';
+import { OhModule } from './oh/oh.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    RestClientBuilder
+    AppComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    OhModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,7 +3,7 @@ import { RequestOptionsArgs } from '@angular/http';
 
 declare global {
     interface Function {
-        fields: FunctionParameter[];
+        parameters: FunctionParameter[];
         method: {
             url?: string,
             options?: RequestOptionsArgs,
