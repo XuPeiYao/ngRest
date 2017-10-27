@@ -1,10 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptionsArgs, RequestMethod } from '@angular/http';
-import { ApiMethodConfig } from './apiMethod';
 import { ApiParameterTypes } from './apiParameterTypes';
-import { Headers } from '@angular/http';
+import { Headers, ResponseContentType } from '@angular/http';
 @Injectable()
 export class RestClientBuilder {
+  public static default = {
+    route: {},
+    body: {},
+    query: {},
+    headers: {},
+    responseType: ResponseContentType.Json
+  };
 
   constructor(private _http: Http) {}
 
@@ -22,17 +28,17 @@ export class RestClientBuilder {
 
     // tslint:disable-next-line:forin
     for (const key in T.prototype) {
-      const member = <ApiMethodConfig>T.prototype[key];
+      const member = <Function>T.prototype[key];
 
       if (!(member instanceof Function)) {
         continue;
       }
 
       const methodMeta = this.clone(member.method);
-      const parameters = this.clone(member.parameters);
+      const parameters = this.clone(member.parameters || []);
 
       result[key] = function(){
-        // #region 拼接URL
+        //#region 拼接URL
         let url: string = baseUrl;
         if (methodMeta.url) {
           if (/^https?:\/\//g.test(methodMeta.url)) {
@@ -41,58 +47,82 @@ export class RestClientBuilder {
             url += methodMeta.url;
           }
         }
-        // 取代在路由的參數
+        //#endregion
+
+        //#region 取代在路由的參數
         for (const param of parameters) {
           if (param.type !== ApiParameterTypes.Route) {
             continue;
           }
           url = url.replaceAll(`{${param.parameter}}`, arguments[param.index]);
         }
-        // #endregion
-
-        if (!methodMeta.options) {
-          methodMeta.options = {};
+        if (RestClientBuilder.default && RestClientBuilder.default.route) { // 預設值
+          // tslint:disable-next-line:forin
+          for (const paramName in RestClientBuilder.default.route) {
+            url = url.replaceAll(`{paramName}`, RestClientBuilder.default.route[paramName]);
+          }
         }
 
-        methodMeta.options.url = undefined;
+        //#endregion
 
         // HTTP 方法設定
-        if (!methodMeta.options.method) {
-          methodMeta.options.method = RequestMethod.Get;
+        if (!methodMeta.method) {
+          methodMeta.method = RequestMethod.Get;
         }
 
-        // HEADER 設定
-        const headers = parameters.filter(x => x.type === ApiParameterTypes.Header);
-        if (headers.length) {
-          if (!methodMeta.options.headers) {
-            methodMeta.options.headers = new Headers();
+        //#region 初始化Request參數
+        function initParameters(type: ApiParameterTypes) {
+          const target = parameters.filter(x => x.type === type);
+
+          // tslint:disable-next-line:no-shadowed-variable
+          let key = 'search';
+          switch (type) {
+            case ApiParameterTypes.Query:
+              key = 'search';
+              break;
+            case ApiParameterTypes.Body:
+              key = 'body';
+              break;
+            case ApiParameterTypes.Header:
+              key = 'headers';
+              break;
           }
-          for (const header of headers) {
-            methodMeta.options.headers.append(header.parameter, arguments[header.index]);
+
+          if (target.length) {
+            if (!methodMeta.search[key]) {
+              if (RestClientBuilder.default && RestClientBuilder.default[key]) {
+                methodMeta.search[key] = RestClientBuilder.default[key];
+              } else {
+                methodMeta.search[key] = {};
+              }
+            }
+            for (const targetItem of target) {
+              let value = arguments[targetItem.index];
+              if (value instanceof Function) {
+                value = value();
+              }
+              methodMeta[key][targetItem.parameter] = value;
+            }
           }
         }
 
-        const querys = parameters.filter(x => x.type === ApiParameterTypes.Query);
-        if (querys.length) {
-          if (!methodMeta.options.search) {
-            methodMeta.options.search = {};
-          }
-          for (const query of querys) {
-            methodMeta.options.search[query.parameter] = arguments[query.index];
-          }
-        }
+        initParameters(ApiParameterTypes.Header);
+        initParameters(ApiParameterTypes.Query);
+        initParameters(ApiParameterTypes.Body);
+        //#endregion
 
-        const bodys = parameters.filter(x => x.type === ApiParameterTypes.Body);
-        if (bodys.length) {
-          if (!methodMeta.options.body) {
-            methodMeta.options.body = {};
-          }
-          for (const body of bodys) {
-            methodMeta.options.body[body.parameter] = arguments[body.index];
-          }
-        }
+        methodMeta.url = url;
 
-        return HTTP.request(url, methodMeta.options);
+        // tslint:disable-next-line:no-shadowed-variable
+        const result = HTTP.request(url, methodMeta);
+        const responseType = methodMeta.responseType || RestClientBuilder.default.responseType;
+
+        switch (responseType) {
+          case ResponseContentType.Json:
+            return result.map(x => x.json());
+          default:
+            return result;
+        }
       };
     }
 
