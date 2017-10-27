@@ -1,11 +1,12 @@
 import { FunctionParameter } from './functionParameter';
 import { RequestOptionsArgs } from '@angular/http';
 import { ApiParameterTypes } from './apiParameterTypes';
+import { ApiMethodConfig } from './apiMethod';
 
 declare global {
   interface Function {
     parameters: FunctionParameter[];
-    method: RequestOptionsArgs;
+    method: ApiMethodConfig;
     getParameters(): string[];
   }
   interface Object {

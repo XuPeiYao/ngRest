@@ -1,5 +1,6 @@
+import { Observable } from 'rxjs/Observable';
 import { Injectable } from '@angular/core';
-import { Http, RequestOptionsArgs, RequestMethod } from '@angular/http';
+import { Http, RequestOptionsArgs, RequestMethod, Response } from '@angular/http';
 import { ApiParameterTypes } from './apiParameterTypes';
 import { Headers, ResponseContentType } from '@angular/http';
 @Injectable()
@@ -114,12 +115,30 @@ export class RestClientBuilder {
         methodMeta.url = url;
 
         // tslint:disable-next-line:no-shadowed-variable
-        const result = HTTP.request(url, methodMeta);
+        let result: Observable<Response>;
+        if (methodMeta.method === RequestMethod.Post && methodMeta.isFormData) {
+          const formData = new FormData();
+          // tslint:disable-next-line:forin
+          for (const key in methodMeta.body) {
+            formData.append(key, methodMeta.body[key]);
+          }
+          methodMeta.body = null;
+          result = HTTP.post(url, formData, methodMeta);
+        } else {
+          result = HTTP.request(url, methodMeta);
+        }
+
         const responseType = methodMeta.responseType || RestClientBuilder.default.responseType;
 
         switch (responseType) {
           case ResponseContentType.Json:
-            return result.map(x => x.json());
+            return result.map(x => {
+              try {
+                return x.json();
+              } catch (e) {
+                return null;
+              }
+            });
           default:
             return result;
         }
