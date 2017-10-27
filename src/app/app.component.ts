@@ -16,22 +16,28 @@ import { RequestMethod, ResponseContentType } from '@angular/http';
 })
 export class AppComponent {
   title = 'app';
-
+  file; fakeApiInstance;
   constructor(builder: RestClientBuilder) {
-    const fakeApiInstance = builder.build(FakeAPI);
-    fakeApiInstance.getPost(1, 55555).subscribe(x => {
+    this.fakeApiInstance = builder.build(FakeAPI);
+    this.fakeApiInstance.getPost(1, 55555).subscribe(x => {
       console.log(x);
     });
 
-    fakeApiInstance.postPost().subscribe(x => {
+    this.fakeApiInstance.postPost().subscribe(x => {
       console.log(x);
     });
 
-    fakeApiInstance.putPost(1).subscribe(x => {
+    this.fakeApiInstance.putPost(1).subscribe(x => {
       console.log(x);
     });
 
-    fakeApiInstance.deletePost(1).subscribe(x => {
+    this.fakeApiInstance.deletePost(1).subscribe(x => {
+      console.log(x);
+    });
+  }
+
+  public upload() {
+    this.fakeApiInstance.uploadFile(this.file).subscribe(x => {
       console.log(x);
     });
   }
@@ -43,14 +49,20 @@ export class FakeAPI {
   public getPost(
     @ApiParameter({ type: ApiParameterTypes.Route })
     postId: number,
-    @ApiParameter()
-    value: number
+    @ApiParameter() value: number
   ): Observable<JSON> {
     return null;
   }
 
   @ApiMethod({ url: '/posts', method: RequestMethod.Post })
   public postPost(): Observable<JSON> {
+    return null;
+  }
+
+  @ApiMethod({ url: 'http://localhost:4200/api/values', method: RequestMethod.Post })
+  public uploadFile(
+    @ApiParameter({ type: ApiParameterTypes.Body }) file
+    ): Observable<JSON> {
     return null;
   }
 

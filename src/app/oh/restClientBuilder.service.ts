@@ -14,7 +14,7 @@ export class RestClientBuilder {
 
   constructor(private _http: Http) {}
 
-  private clone<T>(obj: T): T {
+  private static clone<T>(obj: T): T {
     return <T>JSON.parse(JSON.stringify(obj));
   }
   /**
@@ -34,10 +34,10 @@ export class RestClientBuilder {
         continue;
       }
 
-      const methodMeta = this.clone(member.method);
-      const parameters = this.clone(member.parameters || []);
+      const methodMeta = RestClientBuilder.clone(member.method);
+      const parameters = RestClientBuilder.clone(member.parameters || []);
 
-      result[key] = function(){
+      result[key] = function () {
         //#region 拼接URL
         let url: string = baseUrl;
         if (methodMeta.url) {
@@ -91,7 +91,7 @@ export class RestClientBuilder {
           if (target.length) {
             if (!methodMeta[key]) {
               if (RestClientBuilder.default && RestClientBuilder.default[key]) {
-                methodMeta[key] = RestClientBuilder.default[key];
+                methodMeta[key] = RestClientBuilder.clone(RestClientBuilder.default[key]);
               } else {
                 methodMeta[key] = {};
               }

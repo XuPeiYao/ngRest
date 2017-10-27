@@ -6,16 +6,16 @@ export function ApiParameter(config?: {
     name?: string
 }) {
     return function (target, propertyKey: string, parameterIndex: number) {
-        const functionInstance: Function = target[propertyKey];
+      const functionInstance: Function = target[propertyKey];
 
-        const functionParameters = functionInstance.getParameters();
-        functionInstance.parameters = target[propertyKey].parameters || [];
+      const functionParameters = functionInstance.getParameters();
+      functionInstance.parameters = target[propertyKey].parameters || [];
 
-        functionInstance.parameters.push({
-            index : parameterIndex,
-            name: functionParameters[parameterIndex],
-            parameter : (config || {}).name || functionParameters[parameterIndex],
-            type : (config || {}).type || ApiParameterTypes.Default
-        });
+      functionInstance.parameters.push({
+        index : parameterIndex,
+        name: functionParameters[parameterIndex],
+        parameter : (config || {}).name || functionParameters[parameterIndex],
+        type : (config || {}).type || ApiParameterTypes.Default
+      });
     };
 }
