@@ -59,7 +59,7 @@ export class RestClientBuilder {
         if (RestClientBuilder.default && RestClientBuilder.default.route) { // 預設值
           // tslint:disable-next-line:forin
           for (const paramName in RestClientBuilder.default.route) {
-            url = url.replaceAll(`{paramName}`, RestClientBuilder.default.route[paramName]);
+            url = url.replaceAll(`{${paramName}}`, RestClientBuilder.default.route[paramName]);
           }
         }
 
