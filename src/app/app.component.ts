@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 import { ApiBase } from './oh/apiBase';
 import { ApiMethod } from './oh/apiMethod';
 import './oh/extensions';
@@ -16,7 +16,9 @@ import { RequestMethod, ResponseContentType } from '@angular/http';
 })
 export class AppComponent {
   title = 'app';
-  file; fakeApiInstance;
+  fakeApiInstance;
+
+  @ViewChild('fileInput') fileInput: ElementRef;
   constructor(builder: RestClientBuilder) {
     this.fakeApiInstance = builder.build(FakeAPI);
     this.fakeApiInstance.getPost(1, 55555).subscribe(x => {
@@ -37,7 +39,7 @@ export class AppComponent {
   }
 
   public upload() {
-    this.fakeApiInstance.uploadFile(this.file).subscribe(x => {
+    this.fakeApiInstance.uploadFile('myid', this.fileInput.nativeElement.files[0]).subscribe(x => {
       console.log(x);
     });
   }
@@ -59,8 +61,13 @@ export class FakeAPI {
     return null;
   }
 
-  @ApiMethod({ url: 'http://localhost:4200/api/values', method: RequestMethod.Post })
+  @ApiMethod({
+    url: 'http://localhost:4200/api/values/{id}',
+    method: RequestMethod.Post,
+    isFormData: true // 上傳檔案則必須設定為true
+  })
   public uploadFile(
+    @ApiParameter({ type: ApiParameterTypes.Route}) id: string,
     @ApiParameter({ type: ApiParameterTypes.Body }) file
     ): Observable<JSON> {
     return null;
