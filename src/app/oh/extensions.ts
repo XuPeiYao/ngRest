@@ -3,17 +3,17 @@ import { RequestOptionsArgs } from '@angular/http';
 import { ApiParameterTypes } from './apiParameterTypes';
 
 declare global {
-    interface Function {
-        parameters: FunctionParameter[];
-        method: RequestOptionsArgs;
-        getParameters(): string[];
-    }
-    interface Object {
-        baseUrl: string;
-    }
-    interface String {
-        replaceAll(search: string, replacement: string): string;
-    }
+  interface Function {
+    parameters: FunctionParameter[];
+    method: RequestOptionsArgs;
+    getParameters(): string[];
+  }
+  interface Object {
+    baseUrl: string;
+  }
+  interface String {
+    replaceAll(search: string, replacement: string): string;
+  }
 }
 
 Function.prototype.getParameters = function(){
@@ -28,6 +28,6 @@ Function.prototype.getParameters = function(){
 };
 
 String.prototype.replaceAll = function(search, replacement) {
-    const target = this;
-    return target.replace(new RegExp(search, 'g'), replacement);
+  const target = this;
+  return target.replace(new RegExp(search, 'g'), replacement);
 };

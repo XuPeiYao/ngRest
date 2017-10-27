@@ -9,7 +9,7 @@ export function ApiParameter(config?: {
         const functionInstance: Function = target[propertyKey];
 
         const functionParameters = functionInstance.getParameters();
-        functionInstance.parameters = target[propertyKey].fields || [];
+        functionInstance.parameters = target[propertyKey].parameters || [];
 
         functionInstance.parameters.push({
             index : parameterIndex,

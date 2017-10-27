@@ -3,7 +3,7 @@
  */
 export enum ApiParameterTypes {
     Default,
-    Query = Default,
+    Search = Default,
     Route,
     Header,
     Body

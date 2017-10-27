@@ -19,37 +19,32 @@ export class AppComponent {
 
   constructor(builder: RestClientBuilder) {
     const fakeApiInstance = builder.build(FakeAPI);
-    fakeApiInstance.getPost(1)
-      .subscribe(x => {
-        console.log(x);
-      });
+    fakeApiInstance.getPost(1, 55555).subscribe(x => {
+      console.log(x);
+    });
 
-    fakeApiInstance
-      .postPost()
-      .subscribe(x => {
-        console.log(x);
-      });
+    fakeApiInstance.postPost().subscribe(x => {
+      console.log(x);
+    });
 
-    fakeApiInstance
-      .putPost(1)
-      .subscribe(x => {
-        console.log(x);
-      });
+    fakeApiInstance.putPost(1).subscribe(x => {
+      console.log(x);
+    });
 
-    fakeApiInstance
-      .deletePost(1)
-      .subscribe(x => {
-        console.log(x);
-      });
+    fakeApiInstance.deletePost(1).subscribe(x => {
+      console.log(x);
+    });
   }
 }
 
 @ApiBase('https://jsonplaceholder.typicode.com')
 export class FakeAPI {
-  @ApiMethod({ url: '/posts/{postId}'})
+  @ApiMethod({ url: '/posts/{postId}' })
   public getPost(
     @ApiParameter({ type: ApiParameterTypes.Route })
-    postId: number
+    postId: number,
+    @ApiParameter()
+    value: number
   ): Observable<JSON> {
     return null;
   }
@@ -59,7 +54,7 @@ export class FakeAPI {
     return null;
   }
 
-  @ApiMethod({ url: '/posts/{postId}', method: RequestMethod.Put})
+  @ApiMethod({ url: '/posts/{postId}', method: RequestMethod.Put })
   public putPost(
     @ApiParameter({ type: ApiParameterTypes.Route })
     postId: number

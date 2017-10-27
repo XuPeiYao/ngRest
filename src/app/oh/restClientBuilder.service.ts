@@ -7,7 +7,7 @@ export class RestClientBuilder {
   public static default = {
     route: {},
     body: {},
-    query: {},
+    search: {},
     headers: {},
     responseType: ResponseContentType.Json
   };
@@ -69,7 +69,7 @@ export class RestClientBuilder {
         if (!methodMeta.method) {
           methodMeta.method = RequestMethod.Get;
         }
-
+        const ARGS = arguments;
         //#region 初始化Request參數
         function initParameters(type: ApiParameterTypes) {
           const target = parameters.filter(x => x.type === type);
@@ -77,7 +77,7 @@ export class RestClientBuilder {
           // tslint:disable-next-line:no-shadowed-variable
           let key = 'search';
           switch (type) {
-            case ApiParameterTypes.Query:
+            case ApiParameterTypes.Search:
               key = 'search';
               break;
             case ApiParameterTypes.Body:
@@ -89,15 +89,15 @@ export class RestClientBuilder {
           }
 
           if (target.length) {
-            if (!methodMeta.search[key]) {
+            if (!methodMeta[key]) {
               if (RestClientBuilder.default && RestClientBuilder.default[key]) {
-                methodMeta.search[key] = RestClientBuilder.default[key];
+                methodMeta[key] = RestClientBuilder.default[key];
               } else {
-                methodMeta.search[key] = {};
+                methodMeta[key] = {};
               }
             }
             for (const targetItem of target) {
-              let value = arguments[targetItem.index];
+              let value = ARGS[targetItem.index];
               if (value instanceof Function) {
                 value = value();
               }
@@ -107,7 +107,7 @@ export class RestClientBuilder {
         }
 
         initParameters(ApiParameterTypes.Header);
-        initParameters(ApiParameterTypes.Query);
+        initParameters(ApiParameterTypes.Search);
         initParameters(ApiParameterTypes.Body);
         //#endregion
 
