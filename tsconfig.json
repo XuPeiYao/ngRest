@@ -1,9 +1,10 @@
 {
-  "compileOnSave": false,
+  "compileOnSave": true,
   "compilerOptions": {
-    "outDir": "./dist/out-tsc",
+    "importHelpers": true,
+    "outDir": "./ng-rest",
     "sourceMap": true,
-    "declaration": false,
+    "declaration": true,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -14,6 +15,7 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "rootDir": "./src/"
   }
 }
