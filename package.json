@@ -2,12 +2,12 @@
   "name": "ng-rest",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./ng-rest/ngRest.module.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Xu Pei-Yao",
   "license": "MIT",
   "dependencies": {
     "@angular/common": "^4.2.4",
