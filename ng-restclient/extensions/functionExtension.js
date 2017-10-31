@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var FunctionParameter = (function () {
+var FunctionParameter = /** @class */ (function () {
     function FunctionParameter() {
     }
     return FunctionParameter;

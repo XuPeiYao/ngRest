@@ -2,7 +2,7 @@
   "compileOnSave": true,
   "compilerOptions": {
     "importHelpers": true,
-    "outDir": "./ng-rest",
+    "outDir": "./ng-restclient",
     "sourceMap": true,
     "declaration": true,
     "moduleResolution": "node",

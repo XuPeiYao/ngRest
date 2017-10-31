@@ -1,8 +1,8 @@
 {
-  "name": "ng-rest",
+  "name": "ng-restclient",
   "version": "1.0.0",
   "description": "",
-  "main": "./ng-rest/ngRest.module.js",
+  "main": "./ng-restclient/ngRestClient.module.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
