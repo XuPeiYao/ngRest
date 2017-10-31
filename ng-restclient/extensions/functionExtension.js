@@ -1,11 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var FunctionParameter = /** @class */ (function () {
+var FunctionParameter = (function () {
     function FunctionParameter() {
     }
     return FunctionParameter;
 }());
 exports.FunctionParameter = FunctionParameter;
+/**
+ * 取得函數參數
+ */
 Function.prototype.getParameters = function () {
     try {
         var temp = this.toString().match(/\(.+\)/g)[0];

@@ -1,6 +1,10 @@
-import './extensions';
+import '../extensions/functionExtension';
 import { ApiParameterTypes } from './apiParameterTypes';
 
+/**
+ * 設定為API方法參數
+ * @param config 參數設定
+ */
 export function ApiParameter(config?: {
     type?: ApiParameterTypes,
     name?: string

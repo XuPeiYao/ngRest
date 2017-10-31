@@ -7,6 +7,9 @@ export class FunctionParameter {
   public type: ApiParameterTypes;
 }
 
+/**
+ * 取得函數參數
+ */
 Function.prototype.getParameters = function() {
   try {
     let temp = <string>this.toString().match(/\(.+\)/g)[0];

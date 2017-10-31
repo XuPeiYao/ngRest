@@ -1,5 +1,5 @@
 /**
- * API欄位類型
+ * API參數類型
  */
 export enum ApiParameterTypes {
   Default,

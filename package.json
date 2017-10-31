@@ -1,24 +1,32 @@
 {
   "name": "ng-restclient",
   "version": "1.0.0",
-  "description": "",
+  "description": "針對Angular2+提供使用修飾器定義產生的REST Client",
   "main": "./ng-restclient/ngRestClient.module.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
-  "keywords": [],
-  "author": "Xu Pei-Yao",
+  "keywords": [
+    "REST",
+    "Angular"
+  ],
+  "author": "xupeiyao",
   "license": "MIT",
+  "homepage": "https://github.com/XuPeiYao/ngRestClient",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XuPeiYao/ngRestClient.git"
+  },
   "dependencies": {
     "@angular/common": "^4.2.4",
     "@angular/compiler": "^4.2.4",
     "@angular/core": "^4.2.4",
     "@angular/http": "^4.2.4",
     "@angular/platform-browser": "^4.2.4",
-    "@angular/platform-browser-dynamic": "^4.2.4",
-    "core-js": "^2.4.1",
+    "@angular/platform-browser-dynamic": "^4.4.6",
+    "core-js": "^2.5.1",
     "rxjs": "^5.4.2",
-    "zone.js": "^0.8.14"
+    "zone.js": "^0.8.18"
   },
   "devDependencies": {
     "@angular/cli": "1.4.9",

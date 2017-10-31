@@ -16,9 +16,14 @@ import 'rxjs/add/operator/map';
 import './extensions/functionExtension';
 import './extensions/stringExtension';
 
-
+/**
+ * REST Client建構器
+ */
 @Injectable()
 export class RestClientBuilder {
+  /**
+   * API Request預設值
+   */
   public static default = {
     route: {},
     body: {},
@@ -32,8 +37,9 @@ export class RestClientBuilder {
   private static clone<T>(obj: T): T {
     return <T>JSON.parse(JSON.stringify(obj));
   }
+
   /**
-   * 使用指定型別建立Rest Client
+   * 使用指定型別建立REST Client
    * @param T 指定Class
    */
   public build<T>(T: new () => T): T {

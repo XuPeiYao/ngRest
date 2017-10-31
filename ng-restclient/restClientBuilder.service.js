@@ -8,16 +8,18 @@ var apiParameterTypes_1 = require("./decorators/apiParameterTypes");
 require("rxjs/add/operator/map");
 require("./extensions/functionExtension");
 require("./extensions/stringExtension");
-var RestClientBuilder = /** @class */ (function () {
+/**
+ * REST Client建構器
+ */
+var RestClientBuilder = RestClientBuilder_1 = (function () {
     function RestClientBuilder(_http) {
         this._http = _http;
     }
-    RestClientBuilder_1 = RestClientBuilder;
     RestClientBuilder.clone = function (obj) {
         return JSON.parse(JSON.stringify(obj));
     };
     /**
-     * 使用指定型別建立Rest Client
+     * 使用指定型別建立REST Client
      * @param T 指定Class
      */
     RestClientBuilder.prototype.build = function (T) {
@@ -139,19 +141,22 @@ var RestClientBuilder = /** @class */ (function () {
         }
         return result;
     };
-    RestClientBuilder.default = {
-        route: {},
-        body: {},
-        search: {},
-        headers: {},
-        responseType: http_2.ResponseContentType.Json
-    };
-    RestClientBuilder = RestClientBuilder_1 = tslib_1.__decorate([
-        core_1.Injectable(),
-        tslib_1.__metadata("design:paramtypes", [http_1.Http])
-    ], RestClientBuilder);
     return RestClientBuilder;
-    var RestClientBuilder_1;
 }());
+/**
+ * API Request預設值
+ */
+RestClientBuilder.default = {
+    route: {},
+    body: {},
+    search: {},
+    headers: {},
+    responseType: http_2.ResponseContentType.Json
+};
+RestClientBuilder = RestClientBuilder_1 = tslib_1.__decorate([
+    core_1.Injectable(),
+    tslib_1.__metadata("design:paramtypes", [http_1.Http])
+], RestClientBuilder);
 exports.RestClientBuilder = RestClientBuilder;
+var RestClientBuilder_1;
 //# sourceMappingURL=restClientBuilder.service.js.map

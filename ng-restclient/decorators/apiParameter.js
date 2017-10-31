@@ -1,7 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-require("./extensions");
+require("../extensions/functionExtension");
 var apiParameterTypes_1 = require("./apiParameterTypes");
+/**
+ * 設定為API方法參數
+ * @param config 參數設定
+ */
 function ApiParameter(config) {
     return function (target, propertyKey, parameterIndex) {
         var functionInstance = target[propertyKey];

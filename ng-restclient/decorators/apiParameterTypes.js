@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 /**
- * API欄位類型
+ * API參數類型
  */
 var ApiParameterTypes;
 (function (ApiParameterTypes) {
