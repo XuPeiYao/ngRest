@@ -4,7 +4,9 @@
   "description": "針對Angular2+提供使用修飾器定義產生的REST Client",
   "main": "./ng-restclient/ngRestClient.module.js",
   "scripts": {
-    "test": "tsc & node ./ng-restclient/ngRestClient.module"
+    "tsc": "tsc",
+    "node": "node",
+    "test": "tsc && node ./ng-restclient/ngRestClient.module"
   },
   "keywords": [
     "REST",
