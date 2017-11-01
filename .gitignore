@@ -4,6 +4,7 @@
 /dist
 /tmp
 /out-tsc
+/ng-restclient
 
 # dependencies
 /node_modules
