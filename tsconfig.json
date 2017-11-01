@@ -5,6 +5,7 @@
     "outDir": "./ng-restclient",
     "sourceMap": true,
     "declaration": true,
+    "module": "es2015",
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
@@ -17,5 +18,10 @@
       "dom"
     ],
     "rootDir": "./src/"
+  },
+  "angularCompilerOptions": {
+    "genDir": "tmp",
+    "strictMetadataEmit": true,
+    "entryModule": "./src/ngRestClient.module#NgRestClientModule"
   }
 }

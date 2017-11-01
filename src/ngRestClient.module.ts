@@ -1,11 +1,9 @@
-import 'reflect-metadata';
-import 'zone.js';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { RestClientBuilder } from './restClientBuilder.service';
 
 export * from './restClientBuilder.service';
-export * from './decorators/ngRest.decorators.module';
+export * from './decorators';
 
 @NgModule({
     declarations: [],

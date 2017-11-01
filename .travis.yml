@@ -5,4 +5,4 @@ before_install:
 - npm install -g sync-exec
 - npm install -g typescript
 script:
-- npm test
+- npm run build
