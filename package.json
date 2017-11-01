@@ -1,12 +1,13 @@
 {
   "name": "ng-restclient",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "針對Angular2+提供使用修飾器定義產生的REST Client",
-  "main": "./ng-restclient/index.js",
+  "main": "index.js",
   "scripts": {
-    "cleanup": "rimraf ./tmp && rimraf ./ng-restclient",
+    "copy": "copyfiles package.json README.md ./dist",    
+    "cleanup": "rimraf ./tmp && rimraf ./dist",
     "compile": "ngc -p tsconfig.json",
-    "build": "npm run cleanup && npm run compile"
+    "build": "npm run cleanup && npm run compile && npm run copy"
   },
   "keywords": [
     "REST",
@@ -51,6 +52,7 @@
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
     "typescript": "~2.3.3",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "copyfiles": "^1.0.0"
   }
 }
