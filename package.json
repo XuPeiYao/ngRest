@@ -1,6 +1,6 @@
 {
   "name": "ng-restclient",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "針對Angular2+提供使用修飾器定義產生的REST Client",
   "main": "./ng-restclient/ngRestClient.module.js",
   "scripts": {
