@@ -1,10 +1,11 @@
 {
   "name": "ng-restclient",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "針對Angular2+提供使用修飾器定義產生的REST Client",
   "main": "index.js",
   "scripts": {
-    "copy": "copyfiles package.json README.md ./dist",    
+    "clearnode": "rimraf ./node_modules",
+    "copy": "copyfiles package.json README.md ./dist",
     "cleanup": "rimraf ./tmp && rimraf ./dist",
     "compile": "ngc -p tsconfig.json",
     "build": "npm run cleanup && npm run compile && npm run copy"
@@ -21,21 +22,15 @@
     "url": "git+https://github.com/XuPeiYao/ngRestClient.git"
   },
   "dependencies": {
-    "@angular/common": "^4.2.4",
-    "@angular/core": "^4.2.4",
-    "@angular/http": "^4.2.4",
-    "@angular/platform-browser": "^4.2.4",
-    "@angular/platform-browser-dynamic": "^4.4.6",
-    "core-js": "^2.5.1",
-    "reflect-metadata": "^0.1.10",
-    "rxjs": "^5.4.2",
-    "zone.js": "^0.8.18"
+    "@angular/core": "^5.0.0",
+    "@angular/http": "^5.0.0",
+    "rxjs": "^5.5.2"
   },
   "devDependencies": {
-    "@angular/cli": "1.4.9",
-    "@angular/compiler": "^4.4.6",
-    "@angular/compiler-cli": "^4.4.6",
-    "@angular/language-service": "^4.2.4",
+    "@angular/compiler": "^5.0.0",
+    "@angular/cli": "1.5.0",
+    "@angular/compiler-cli": "^5.0.0",
+    "@angular/language-service": "^5.0.0",
     "@types/jasmine": "~2.5.53",
     "@types/jasminewd2": "~2.0.2",
     "@types/node": "~6.0.60",
@@ -51,7 +46,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.2.0",
     "tslint": "~5.7.0",
-    "typescript": "~2.3.3",
+    "typescript": "~2.4.2",
     "rimraf": "^2.5.4",
     "copyfiles": "^1.0.0"
   }
