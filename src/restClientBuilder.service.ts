@@ -7,10 +7,7 @@ import {
   RequestMethod,
   Response
 } from '@angular/http';
-import {
-  Headers,
-  ResponseContentType
-} from '@angular/http';
+import { Headers, ResponseContentType } from '@angular/http';
 import { ApiParameterTypes } from './decorators/apiParameterTypes';
 import 'rxjs/add/operator/map';
 import './extensions/functionExtension';
@@ -58,7 +55,7 @@ export class RestClientBuilder {
       const methodMeta = RestClientBuilder.clone(member.method);
       const parameters = RestClientBuilder.clone(member.parameters || []);
 
-      result[key] = function () {
+      result[key] = function() {
         //#region 拼接URL
         let url: string = baseUrl;
         if (methodMeta.url) {
@@ -77,10 +74,14 @@ export class RestClientBuilder {
           }
           url = url.replaceAll(`{${param.parameter}}`, arguments[param.index]);
         }
-        if (RestClientBuilder.default && RestClientBuilder.default.route) { // 預設值
+        if (RestClientBuilder.default && RestClientBuilder.default.route) {
+          // 預設值
           // tslint:disable-next-line:forin
           for (const paramName in RestClientBuilder.default.route) {
-            url = url.replaceAll(`{${paramName}}`, RestClientBuilder.default.route[paramName]);
+            url = url.replaceAll(
+              `{${paramName}}`,
+              RestClientBuilder.default.route[paramName]
+            );
           }
         }
 
@@ -112,7 +113,9 @@ export class RestClientBuilder {
           if (target.length) {
             if (!methodMeta[key]) {
               if (RestClientBuilder.default && RestClientBuilder.default[key]) {
-                methodMeta[key] = RestClientBuilder.clone(RestClientBuilder.default[key]);
+                methodMeta[key] = RestClientBuilder.clone(
+                  RestClientBuilder.default[key]
+                );
               } else {
                 methodMeta[key] = {};
               }
@@ -122,8 +125,24 @@ export class RestClientBuilder {
               if (value instanceof Function) {
                 value = value();
               }
-              methodMeta[key][targetItem.parameter] = value;
+              // 如果是body，則直接將該參數視為整個BODY內容
+              if (type === ApiParameterTypes.Body && !methodMeta.isFormData) {
+                if (value.constructor === Object) {
+                  for (const propKey in value) {
+                    if (!value.hasOwnProperty(propKey)) {
+                      continue;
+                    }
+                    methodMeta[key][propKey] = value[propKey];
+                  }
+                } else {
+                  methodMeta[key] = JSON.stringify(value);
+                }
+              } else {
+                methodMeta[key][targetItem.parameter] = value;
+              }
             }
+          } else {
+            methodMeta[key] = RestClientBuilder.default[key];
           }
         }
 
@@ -136,7 +155,11 @@ export class RestClientBuilder {
 
         // tslint:disable-next-line:no-shadowed-variable
         let result: Observable<Response>;
-        if (methodMeta.method === RequestMethod.Post && methodMeta.isFormData) {
+        if (
+          (methodMeta.method === RequestMethod.Post ||
+            methodMeta.method === RequestMethod.Put) &&
+          methodMeta.isFormData
+        ) {
           const formData = new FormData();
           // tslint:disable-next-line:forin
           for (const key in methodMeta.body) {
@@ -148,7 +171,8 @@ export class RestClientBuilder {
           result = HTTP.request(url, methodMeta);
         }
 
-        const responseType = methodMeta.responseType || RestClientBuilder.default.responseType;
+        const responseType =
+          methodMeta.responseType || RestClientBuilder.default.responseType;
 
         switch (responseType) {
           case ResponseContentType.Json:
